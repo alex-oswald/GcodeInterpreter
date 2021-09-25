@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-
 namespace GcodeInterpreter
 {
     public interface ICommentRemover

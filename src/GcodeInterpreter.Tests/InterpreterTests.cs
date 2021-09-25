@@ -19,6 +19,7 @@ namespace GcodeInterpreter.Tests
 
             GcodeProgram program = await interpreter.ParseAsync(_gcodeFile);
 
+            Assert.Equal("M190 S60.000000", program.Lines[0].ToString());
             Assert.Equal("M190", program.Lines[0].Command.ToString()); //M190 S60.000000
             Assert.Equal('M', program.Lines[0].Command.FieldLetter.Letter); //M190 S60.000000
             Assert.Equal('G', program.Lines.Skip(8).First().Command.FieldLetter.Letter); //G1 Z15.0 F4800 ;move the platform down 15mm

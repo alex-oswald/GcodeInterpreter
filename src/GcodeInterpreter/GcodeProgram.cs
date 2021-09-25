@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace GcodeInterpreter
 {
@@ -14,7 +15,16 @@ namespace GcodeInterpreter
         public IReadOnlyList<Line> Lines { get; }
     }
 
-    public record Line(Field Command, List<Field> Parameters);
+    public record Line(Field Command, List<Field> Parameters)
+    {
+        public override string ToString()
+        {
+            var fields = new List<string>() { Command.ToString() };
+            var parameters = Parameters.Select(o => o.ToString());
+            fields.AddRange(parameters);
+            return string.Join(' ', fields);
+        }
+    }
 
     public record Field(FieldLetter FieldLetter, string Code)
     {
