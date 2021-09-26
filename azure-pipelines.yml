@@ -6,7 +6,7 @@ trigger:
     include: ['*']
 
 pool:
-  vmImage: 'ubuntu'
+  vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
