@@ -1,5 +1,7 @@
 # G-code Interpreter
 
+[![Nuget](https://img.shields.io/nuget/v/GcodeInterpreter)](https://www.nuget.org/packages/GcodeInterpreter/)
+
 Simple .NET G-code interpreter
 
 
