@@ -8,6 +8,7 @@
     <Authors>Alex Oswald</Authors>
     <Description>Simple .NET G-code Interpreter</Description>
     <RepositoryUrl>https://github.com/alex-oswald/GcodeInterpreter</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/alex-oswald/GcodeInterpreter</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RootNamespace>GcodeInterpreter</RootNamespace>
     <AssemblyName>GcodeInterpreter</AssemblyName>
