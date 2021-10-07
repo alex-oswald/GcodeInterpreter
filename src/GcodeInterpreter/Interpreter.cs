@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GcodeInterpreter
@@ -8,11 +10,18 @@ namespace GcodeInterpreter
     public interface IGcodeInterpreter
     {
         /// <summary>
+        /// Generates a <see cref="GcodeProgram"/> from a <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="stream">The G-codes stream.</param>
+        /// <returns>The generated <see cref="GcodeProgram"/>.</returns>
+        Task<GcodeProgram> ParseAsync(Stream stream, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Generates a <see cref="GcodeProgram"/> from a G-code file.
         /// </summary>
         /// <param name="path">The G-codes file path.</param>
         /// <returns>The generated <see cref="GcodeProgram"/>.</returns>
-        Task<GcodeProgram> ParseAsync(string path);
+        Task<GcodeProgram> ParseAsync(string path, CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -39,12 +48,23 @@ namespace GcodeInterpreter
             _commentRemovers = commentRemovers;
         }
 
-        public async Task<GcodeProgram> ParseAsync(string path)
+        public async Task<GcodeProgram> ParseAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            using GcodeReader gcode = new(stream);
+            return await ParseAsync(gcode, cancellationToken);
+        }
+
+        public async Task<GcodeProgram> ParseAsync(string path, CancellationToken cancellationToken = default)
+        {
+            using GcodeReader gcode = new(path);
+            return await ParseAsync(gcode, cancellationToken);
+        }
+
+        internal async Task<GcodeProgram> ParseAsync(GcodeReader gcodeReader, CancellationToken cancellationToken = default)
         {
             List<Line> fields = new();
-            using GcodeReader gcode = new(path);
 
-            await foreach (string line in gcode.ReadLinesAsync())
+            await foreach (string line in gcodeReader.ReadLinesAsync(cancellationToken))
             {
                 // If the line is empty, continue to the next line
                 if (string.IsNullOrWhiteSpace(line))
