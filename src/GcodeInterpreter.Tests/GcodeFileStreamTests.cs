@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -11,10 +12,28 @@ namespace GcodeInterpreter.Tests
         private readonly string _stlFile = AppContext.BaseDirectory + "/SampleData/10x10x10mm_cube.stl";
 
         [Fact]
-        public async Task Reads_Lines()
+        public async Task Reads_Lines_From_File()
         {
             List<string> lines = new();
             using GcodeReader gcode = new(_gcodeFile);
+
+            await foreach (string line in gcode.ReadLinesAsync())
+            {
+                lines.Add(line);
+            }
+
+            Assert.Equal("M190 S60.000000", lines[0]);
+            Assert.Equal("M109 S200.000000", lines[1]);
+            Assert.StartsWith("G90", lines[1912]);
+            Assert.Equal(1916, lines.Count);
+        }
+
+        [Fact]
+        public async Task Reads_Lines_From_Stream()
+        {
+            List<string> lines = new();
+            var stream = new StreamReader(_gcodeFile);
+            using GcodeReader gcode = new(stream.BaseStream);
 
             await foreach (string line in gcode.ReadLinesAsync())
             {
