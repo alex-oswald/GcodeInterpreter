@@ -1,6 +1,7 @@
 # G-code Interpreter
 
 [![Nuget](https://img.shields.io/nuget/v/GcodeInterpreter)](https://www.nuget.org/packages/GcodeInterpreter/)
+![Nuget](https://img.shields.io/nuget/dt/GcodeInterpreter)
 
 Simple .NET G-code interpreter
 
@@ -8,7 +9,13 @@ Simple .NET G-code interpreter
 The G-code interpreter will read a G-code file and produce a `GcodeProgram`
 from it.
 
-### Dependency injection setup
+## Setup
+
+Install the GcodeInterpreter package from NuGet.
+
+```
+Install-Package GcodeInterpreter
+```
 
 Add services to DI
 
@@ -16,7 +23,7 @@ Add services to DI
 services.AddGcodeInterpreter();
 ```
 
-### Using the interpreter
+## Using the interpreter
 
 Inject `IGcodeInterpreter` into a class and use it to produce a `GcodeProgram`
 
