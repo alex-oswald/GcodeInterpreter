@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>GcodeInterpreter</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.1.0</Version>
     <Authors>Alex Oswald</Authors>
     <Description>Simple .NET G-code Interpreter</Description>
     <RepositoryUrl>https://github.com/alex-oswald/GcodeInterpreter</RepositoryUrl>
