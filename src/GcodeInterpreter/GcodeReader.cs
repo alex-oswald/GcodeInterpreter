@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace GcodeInterpreter
 {
@@ -39,12 +41,17 @@ namespace GcodeInterpreter
         /// Each string returned represents one line in the file.
         /// </summary>
         /// <returns>Stream of strings.</returns>
-        public async IAsyncEnumerable<string> ReadLinesAsync()
+        public async IAsyncEnumerable<string> ReadLinesAsync(
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             string? line;
 
             while ((line = await ReadLineAsync()) != null)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException();
+                }
                 yield return line;
             }
         }
